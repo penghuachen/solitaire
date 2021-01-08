@@ -25,10 +25,10 @@ body {
 
 .opening-logo {
   position: absolute;
-  top: 50%;
+  -webkit-animation: opening 1.8s infinite;
+          animation: opening 1.8s infinite;
+  top: 45%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
   width: 650px;
   height: 300px;
 }
@@ -36,5 +36,41 @@ body {
 .opening-logo img {
   width: 100%;
   height: 100%;
+}
+
+/* The animation code */
+@-webkit-keyframes opening {
+  0% {
+    opacity: 1;
+    -webkit-transform: translate(-50%, -40%) scale(1);
+            transform: translate(-50%, -40%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    -webkit-transform: translate(-50%, -40%) scale(0.95);
+            transform: translate(-50%, -40%) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(-50%, -40%) scale(1);
+            transform: translate(-50%, -40%) scale(1);
+  }
+}
+@keyframes opening {
+  0% {
+    opacity: 1;
+    -webkit-transform: translate(-50%, -40%) scale(1);
+            transform: translate(-50%, -40%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    -webkit-transform: translate(-50%, -40%) scale(0.95);
+            transform: translate(-50%, -40%) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(-50%, -40%) scale(1);
+            transform: translate(-50%, -40%) scale(1);
+  }
 }
 /*# sourceMappingURL=index.css.map */

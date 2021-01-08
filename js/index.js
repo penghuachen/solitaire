@@ -4,7 +4,7 @@ const UIStates = {
 
 (function() {
   mainRenderProccess();
-  setTimeout(hideOpening, 3000)
+  setTimeout(hideOpening, 5000)
 })();
 
 function hideOpening() {
@@ -26,7 +26,7 @@ function openingDOM() {
 
 function mainRenderProccess() {
   const opening = openingDOM();
-  const mainDOM = opening + `<h1>sss</h1>`
+  const mainDOM = opening
 
   document.body.innerHTML = mainDOM;
 }

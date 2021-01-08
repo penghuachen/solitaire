@@ -1,9 +1,19 @@
 @import './_reset.scss';
 
+body {
+  width: 100%;
+  height: 100vh;
+  background: 
+    transparent 
+    linear-gradient(180deg, #525252 0%, #001F1D 100%) 0% 0% 
+    no-repeat 
+    padding-box;
+}
+
 .opening {
   width: 100%;
   height: 100vh;
-  position: relative;
+  position: absolute;
   background: 
     transparent 
     linear-gradient(180deg, #525252 0%, #001F1D 100%) 0% 0% 

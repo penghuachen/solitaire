@@ -3,13 +3,13 @@ const UIStates = {
 };
 
 (function() {
-  openingDOM();
+  mainRenderProccess();
   setTimeout(hideOpening, 3000)
 })();
 
 function hideOpening() {
   UIStates.opening = false;
-  openingDOM();
+  mainRenderProccess();
 }
 
 function openingDOM() {
@@ -21,6 +21,12 @@ function openingDOM() {
     </div>
   `;
 
-  const showOpeningDOM = UIStates.opening ? dom : null;
-  document.body.innerHTML = showOpeningDOM;
+  return UIStates.opening ? dom : "";
+}
+
+function mainRenderProccess() {
+  const opening = openingDOM();
+  const mainDOM = opening + `<h1>sss</h1>`
+
+  document.body.innerHTML = mainDOM;
 }

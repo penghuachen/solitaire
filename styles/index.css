@@ -9,10 +9,14 @@
 }
 
 body {
-  width: 100%;
+  min-width: 1440px;
+}
+
+body {
   height: 100vh;
-  background: transparent -webkit-gradient(linear, left top, left bottom, from(#525252), to(#001F1D)) 0% 0% no-repeat padding-box;
-  background: transparent linear-gradient(180deg, #525252 0%, #001F1D 100%) 0% 0% no-repeat padding-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .opening {
@@ -124,5 +128,28 @@ body {
 .game-operation-popup .game-operation-container .back-game {
   font-size: 20px;
   color: #3F869B;
+}
+
+.main-container {
+  min-width: calc(100% - 105px);
+  width: 90%;
+  background: transparent -webkit-gradient(linear, left top, left bottom, from(#525252), to(#001F1D)) 0% 0% no-repeat padding-box;
+  background: transparent linear-gradient(180deg, #525252 0%, #001F1D 100%) 0% 0% no-repeat padding-box;
+}
+
+.sidebar {
+  width: 10%;
+  min-width: 105px;
+  text-align: center;
+  background: #001F1D;
+  padding-top: 120px;
+}
+
+.sidebar div {
+  cursor: pointer;
+}
+
+.sidebar div:not(.new-game) {
+  margin-top: 50px;
 }
 /*# sourceMappingURL=index.css.map */

@@ -2,13 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;400&display=swap');
 
 body {
-  width: 100%;
   height: 100vh;
-  background: 
-    transparent 
-    linear-gradient(180deg, #525252 0%, #001F1D 100%) 0% 0% 
-    no-repeat 
-    padding-box;
+  display: flex;
 }
 
 .opening {
@@ -99,5 +94,31 @@ body {
       font-size: 20px;
       color:#3F869B;
     }
+  }
+}
+
+.main-container {
+  min-width: calc(100% - 105px);
+  width: 90%;
+  background: 
+    transparent 
+    linear-gradient(180deg, #525252 0%, #001F1D 100%) 0% 0% 
+    no-repeat 
+    padding-box;
+}
+
+.sidebar {
+  width: 10%;
+  min-width: 105px;
+  text-align: center;
+  background: #001F1D;
+  padding-top: 120px;
+
+  div {
+    cursor: pointer;
+  }
+
+  div:not(.new-game) {
+    margin-top: 50px;
   }
 }

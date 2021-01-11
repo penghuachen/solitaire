@@ -1,4 +1,5 @@
 @import './_reset.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;400&display=swap');
 
 body {
   width: 100%;
@@ -47,5 +48,56 @@ body {
   100% {
     opacity: 1;
     transform: translate(-50%, -40%) scale(1);
+  }
+}
+
+.game-operation-popup {
+  position: absolute;
+  z-index: 999;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(112, 112, 112, 0.5);
+
+  .game-operation-container {
+    width: 700px;
+    height: 400px;
+    padding: 50px 116px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    border: 1px solid #707070;
+    border-radius: 20px;
+    text-align: center;
+
+    img {
+      margin-bottom: 10px;
+    }
+
+    .warning-message {
+      color:#4B4B4B;
+      font-size: 24px;
+      margin-bottom: 35px;
+      font-weight: bold;
+    }
+
+    button {
+      margin-bottom: 30px;
+      padding: 10px 30px;
+      border: none;
+      color: #ffffff;
+      font-size: 24px;
+      border-radius: 25px;
+      background: #3F869B;
+    }
+
+    .back-game {
+      font-size: 20px;
+      color:#3F869B;
+    }
   }
 }

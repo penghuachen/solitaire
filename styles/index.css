@@ -23,6 +23,7 @@ body {
   width: 100%;
   height: 100vh;
   position: absolute;
+  z-index: 2;
   background: transparent -webkit-gradient(linear, left top, left bottom, from(#525252), to(#001F1D)) 0% 0% no-repeat padding-box;
   background: transparent linear-gradient(180deg, #525252 0%, #001F1D 100%) 0% 0% no-repeat padding-box;
 }
@@ -150,6 +151,10 @@ body {
           align-items: center;
 }
 
+.top-bar .game-records {
+  margin-top: 18px;
+}
+
 .top-bar .game-records .time, .top-bar .game-records .moves {
   display: inline-block;
   color: #ffffff;
@@ -162,6 +167,98 @@ body {
 
 .top-bar .game-records .moves {
   margin-left: 50px;
+}
+
+.gaming-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.gaming-area .card-placement-area {
+  width: 112px;
+  height: calc(100vh - 150px);
+  margin-right: 15px;
+}
+
+.gaming-area .card-placement-area:last-child {
+  margin-right: 0;
+}
+
+.gaming-area .card-placement-area .temporary-area, .gaming-area .card-placement-area .finished-area {
+  border: 1px solid #ffffff;
+  height: 160px;
+  border-radius: 5px;
+  margin-bottom: 45px;
+}
+
+.gaming-area .card-placement-area .temporary-area {
+  position: relative;
+}
+
+.gaming-area .card-placement-area .temporary-area img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.gaming-area .card-placement-area .temporary-area::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  bottom: 5px;
+  left: 5px;
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+}
+
+.gaming-area .card-placement-area .finished-area {
+  font-size: 75px;
+  line-height: 150px;
+  text-align: center;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.gaming-area .card-placement-area .card-line {
+  position: relative;
+}
+
+.gaming-area .card-placement-area .card-line .card {
+  position: absolute;
+}
+
+.gaming-area .card-placement-area .card-line .card:nth-child(1) {
+  top: 0;
+}
+
+.gaming-area .card-placement-area .card-line .card:nth-child(2) {
+  top: 40px;
+}
+
+.gaming-area .card-placement-area .card-line .card:nth-child(3) {
+  top: 80px;
+}
+
+.gaming-area .card-placement-area .card-line .card:nth-child(4) {
+  top: 120px;
+}
+
+.gaming-area .card-placement-area .card-line .card:nth-child(5) {
+  top: 160px;
+}
+
+.gaming-area .card-placement-area .card-line .card:nth-child(6) {
+  top: 200px;
+}
+
+.gaming-area .card-placement-area .card-line .card:nth-child(7) {
+  top: 240px;
 }
 
 .sidebar {

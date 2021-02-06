@@ -2,7 +2,6 @@
 const initData = {}; // 初始區牌組資料
 const temporaryData = {}; // 暫存區牌組資料
 const finishedData = {}; // 完成區牌組資料
-const cardLines = document.querySelectorAll(".card-line");
 
 initGame();
 function initGame() {
@@ -81,6 +80,7 @@ function initCardsDOMGenerator() {
       return `
         <div 
           class="card" 
+          data-area="init"
           data-col="${ data.initCol }" 
           ${ index === (initData[key].length - 1) ? 'draggle="true"' : "" }
         >
@@ -94,10 +94,12 @@ function initCardsDOMGenerator() {
 
 
 function renderView() {
+  const cardLines = document.querySelectorAll(".card-line");
   const initCardsDOM = initCardsDOMGenerator();
   cardLines.forEach((cardLine, index) => {
     cardLine.innerHTML = initCardsDOM[index].join(",");
   });
+
   const cards = document.querySelectorAll('.card:last-child');
   cards.forEach(element => {
     element.addEventListener('dragstart', test)

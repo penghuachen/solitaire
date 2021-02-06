@@ -105,3 +105,21 @@ function renderView() {
     element.addEventListener('dragstart', test)
   });
 }
+
+const sideBarNewGameBtn = document.querySelector(".sidebar .new-game");
+const newGamePopup = document.querySelector(".game-operation-popup.new-game");
+
+sideBarNewGameBtn.addEventListener("click", () => { 
+  newGamePopup.style = "pointer-events: auto";
+  newGamePopup.style.opacity = 1;
+});
+newGamePopup.addEventListener("click", startNewGame);
+
+function startNewGame(e) {
+  if (e.target.className === "new-game-btn") {
+    alert("開啟新局！！")
+    distributeCards();
+  } 
+  newGamePopup.style.opacity = 0;
+  newGamePopup.style = "pointer-events: none";
+}

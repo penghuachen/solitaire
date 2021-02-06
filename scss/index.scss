@@ -48,6 +48,9 @@ body {
 }
 
 .game-operation-popup {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .5s;
   position: fixed;
   z-index: 999;
   width: 100%;
@@ -58,6 +61,7 @@ body {
   background: rgba(112, 112, 112, 1);
 
   .game-operation-container {
+    pointer-events: auto;
     width: 700px;
     height: 400px;
     padding: 50px 116px;
@@ -82,6 +86,7 @@ body {
     }
 
     button {
+      cursor: pointer;
       margin-bottom: 30px;
       padding: 10px 30px;
       border: none;
@@ -89,9 +94,11 @@ body {
       font-size: 24px;
       border-radius: 25px;
       background: #3F869B;
+      outline: none;
     }
 
     .back-game {
+      cursor: pointer;
       font-size: 20px;
       color:#3F869B;
     }

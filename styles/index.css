@@ -173,6 +173,12 @@ body {
   margin: 0 5px;
 }
 
+.top-bar .game-records .time span {
+  display: inline-block;
+  width: 60px;
+  letter-spacing: 2px;
+}
+
 .top-bar .game-records .moves {
   margin-left: 50px;
 }

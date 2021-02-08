@@ -130,6 +130,13 @@ body {
         margin: 0 5px;
       }
     }
+    .time {
+      span {
+        display: inline-block;
+        width: 60px;
+        letter-spacing: 2px;
+      }
+    }
     .moves {
       margin-left: 50px;
     }

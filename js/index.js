@@ -1,12 +1,24 @@
-
-const initData = {}; // 初始區牌組資料
-const temporaryData = {}; // 暫存區牌組資料
-const finishedData = {}; // 完成區牌組資料
+const cardData = getInitCardsData(); // 初始化卡牌資料
+const temporaryData = setInitAreaData(); // 暫存區牌組資料
+const finishedData = setInitAreaData(); // 完成區牌組資料
+const initData = {}; //初始區牌組資料
 
 initGame();
 function initGame() {
   setTimeout(hideOpening, 500);
+  const timer = setInterval(gameTimer, 1000);
   distributeCards();
+}
+
+function setInitAreaData() {
+  const place = 4;
+  const obj = {};
+
+  for (let i = 1; i <= place; i++) {
+    obj[i] = [];
+  }
+
+  return obj;
 }
 
 function test(e) {console.log(e);  }
@@ -54,9 +66,8 @@ function getRandomCardsData(cards, arr) {
   }
 }
 
-function distributeCards() { // name is not suitable
-  const cards = getInitCardsData();
-  const randomCardsData = getRandomCardsData(cards, []);
+function distributeCards() { 
+  const randomCardsData = getRandomCardsData(cardData, []);
   const amountsOfEachLine = [7, 7, 7, 7, 6, 6, 6, 6];
 
   let startIndex = 0, endIndex = 0;
@@ -92,7 +103,7 @@ function initCardsDOMGenerator() {
   return obj;
 }
 
-
+// render 
 function renderView() {
   const cardLines = document.querySelectorAll(".card-line");
   const initCardsDOM = initCardsDOMGenerator();
@@ -106,6 +117,7 @@ function renderView() {
   });
 }
 
+// new game
 const sideBarNewGameBtn = document.querySelector(".sidebar .new-game");
 const newGamePopup = document.querySelector(".game-operation-popup.new-game");
 
@@ -122,4 +134,19 @@ function startNewGame(e) {
   } 
   newGamePopup.style.opacity = 0;
   newGamePopup.style = "pointer-events: none";
+}
+
+// timer
+let records = 0;
+function gameTimer() {
+  const time = document.querySelector(".time span");
+  records += 1;
+  let seconds = records % 60;
+  let minutes = Math.floor(records / 60);
+  
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+
+  const currentRecord = minutes + ":" + seconds;
+  time.innerHTML = currentRecord;
 }

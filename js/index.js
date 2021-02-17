@@ -131,6 +131,7 @@ function startNewGame(e) {
   if (e.target.className === "new-game-btn") {
     alert("開啟新局！！")
     distributeCards();
+    resetGameTimer();
   } 
   newGamePopup.style.opacity = 0;
   newGamePopup.style = "pointer-events: none";
@@ -149,4 +150,9 @@ function gameTimer() {
 
   const currentRecord = minutes + ":" + seconds;
   time.innerHTML = currentRecord;
+}
+
+function resetGameTimer() {
+  records = 0;
+  gameTimer();
 }

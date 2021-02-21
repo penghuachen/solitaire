@@ -95,7 +95,6 @@ body {
 }
 
 .game-operation-popup .game-operation-container {
-  pointer-events: auto;
   width: 700px;
   height: 400px;
   padding: 50px 116px;
@@ -231,11 +230,18 @@ body {
 }
 
 .gaming-area .card-placement-area .finished-area {
+  position: relative;
   font-size: 75px;
   line-height: 150px;
   text-align: center;
   color: #ffffff;
   font-weight: bold;
+}
+
+.gaming-area .card-placement-area .finished-area .card {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .gaming-area .card-placement-area .card-line {

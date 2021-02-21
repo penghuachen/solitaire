@@ -1,7 +1,16 @@
 const cardData = getInitCardsData(); // 初始化卡牌資料
-const temporaryData = setInitAreaData(); // 暫存區牌組資料
-const finishedData = setInitAreaData(); // 完成區牌組資料
 const initData = {}; //初始區牌組資料
+const recordCardsOrder = [];
+let timeRecords = 0;
+let moves = 0;
+
+const move = document.querySelector(".moves span");
+const areas = document.querySelectorAll(".area");
+
+areas.forEach(area => {
+  area.addEventListener("dragover", dragOver);
+  area.addEventListener("drop", dropCardInGameArea);
+})
 
 initGame();
 function initGame() {
@@ -10,18 +19,9 @@ function initGame() {
   distributeCards();
 }
 
-function setInitAreaData() {
-  const place = 4;
-  const obj = {};
-
-  for (let i = 1; i <= place; i++) {
-    obj[i] = [];
-  }
-
-  return obj;
+function dragStart(e) { 
+  e.dataTransfer.setData("text/plain", e.currentTarget.id);
 }
-
-function test(e) {console.log(e);  }
 
 function hideOpening() {
   document.querySelector(".opening").style = "display: none";
@@ -81,7 +81,7 @@ function distributeCards() {
     startIndex += amount;
   });
 
-  renderView();
+  renderInitView();
 } 
 
 function initCardsDOMGenerator() {
@@ -90,12 +90,17 @@ function initCardsDOMGenerator() {
     obj[key] = initData[key].map((data, index) => {
       return `
         <div 
+          id="${ data.id }" 
+          draggle="true"
           class="card" 
           data-area="init"
+          data-type="${ data.type }"
+          data-value="${ data.value }"
           data-col="${ data.initCol }" 
-          ${ index === (initData[key].length - 1) ? 'draggle="true"' : "" }
         >
-          <img src="./images/cards/${ data.type }-${ data.value }.svg" alt="card">
+          <img 
+            src="./images/cards/${ data.type }-${ data.value }.svg" 
+            alt="card">
         </div>
       `;
     })
@@ -104,16 +109,16 @@ function initCardsDOMGenerator() {
 }
 
 // render 
-function renderView() {
+function renderInitView() {
   const cardLines = document.querySelectorAll(".card-line");
   const initCardsDOM = initCardsDOMGenerator();
   cardLines.forEach((cardLine, index) => {
-    cardLine.innerHTML = initCardsDOM[index].join(",");
+    cardLine.innerHTML = initCardsDOM[index].join("");
   });
 
-  const cards = document.querySelectorAll('.card:last-child');
+  const cards = document.querySelectorAll('.card');
   cards.forEach(element => {
-    element.addEventListener('dragstart', test)
+    element.addEventListener('dragstart', dragStart)
   });
 }
 
@@ -125,8 +130,8 @@ sideBarNewGameBtn.addEventListener("click", () => {
   newGamePopup.style = "pointer-events: auto";
   newGamePopup.style.opacity = 1;
 });
-newGamePopup.addEventListener("click", startNewGame);
 
+newGamePopup.addEventListener("click", startNewGame);
 function startNewGame(e) {
   if (e.target.className === "new-game-btn") {
     alert("開啟新局！！")
@@ -138,12 +143,11 @@ function startNewGame(e) {
 }
 
 // timer
-let records = 0;
 function gameTimer() {
   const time = document.querySelector(".time span");
-  records += 1;
-  let seconds = records % 60;
-  let minutes = Math.floor(records / 60);
+  timeRecords += 1;
+  let seconds = timeRecords % 60;
+  let minutes = Math.floor(timeRecords / 60);
   
   minutes = minutes < 10 ? "0" + minutes : minutes;
   seconds = seconds < 10 ? "0" + seconds : seconds;
@@ -153,6 +157,46 @@ function gameTimer() {
 }
 
 function resetGameTimer() {
-  records = 0;
+  timeRecords = 0;
   gameTimer();
 }
+
+
+function dragOver(e) {
+  e.preventDefault();
+  console.log('dragover');
+}
+
+function dropCardInGameArea(e) {
+  e.preventDefault();
+  const data = event.dataTransfer.getData("text/plain");
+  const droppingElement = document.getElementById(data);
+
+  const currentTarget = e.currentTarget;
+  const target = e.target;
+  // when puts card in temprary area again
+  if (currentTarget.className === "temporary-area area" && target.className !== "temporary-area area") {
+    event.dataTransfer.clearData();
+    return
+  }
+
+  // when puts card in finished area again
+  if (currentTarget.className === "finished-area area" && target.className !== "finished-area area") {
+    const finishedAreaCards = document.querySelectorAll(".finished-area .card");
+    const isMatched = [...finishedAreaCards].some(card => {
+      return (
+        card.dataset.type === droppingElement.dataset.type && 
+        +card.dataset.value === droppingElement.dataset.value - 1
+      );
+    })
+    if (!isMatched) return;
+  }
+  // console.log('drop');
+  const dropedAreaElement = [...areas].find(el => el == event.currentTarget);
+  recordCardsOrder.push(droppingElement);
+  moves += 1;
+  move.innerHTML = moves;
+  dropedAreaElement.appendChild(droppingElement);
+  event.dataTransfer.clearData();
+}
+

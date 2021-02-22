@@ -148,6 +148,27 @@ function startNewGame(e) {
   newGamePopup.style = "pointer-events: none";
 }
 
+// restart game
+const sideBarRestartGameBtn = document.querySelector(".sidebar .restart-game");
+const restartGamePopup = document.querySelector(".game-operation-popup.restart-game");
+
+sideBarRestartGameBtn.addEventListener("click", () => { 
+  restartGamePopup.style = "pointer-events: auto";
+  restartGamePopup.style.opacity = 1;
+});
+
+restartGamePopup.addEventListener("click", restartNewGame);
+function restartNewGame(e) {
+  if (e.target.className === "restart-game-btn") {
+    alert("重啟該局！！")
+    renderInitView();
+    resetGameTimer();
+    resetGameAreas();
+  } 
+  restartGamePopup.style.opacity = 0;
+  restartGamePopup.style = "pointer-events: none";
+}
+
 function resetGameAreas() {
   areas.forEach(area => {
     area.innerHTML = "";

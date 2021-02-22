@@ -20,7 +20,12 @@ function initGame() {
 }
 
 function dragStart(e) { 
-  e.dataTransfer.setData("text/plain", e.currentTarget.id);
+  const currentTarget = e.currentTarget;
+  const cardsInCardLine = [ ...currentTarget.parentNode.querySelectorAll(".card") ];
+  const draggingElementIndex = cardsInCardLine.findIndex(card => card === currentTarget);
+  if (cardsInCardLine.length === draggingElementIndex + 1) {
+    e.dataTransfer.setData("text/plain", currentTarget.id);
+  }
 }
 
 function hideOpening() {
@@ -137,9 +142,16 @@ function startNewGame(e) {
     alert("開啟新局！！")
     distributeCards();
     resetGameTimer();
+    resetGameAreas();
   } 
   newGamePopup.style.opacity = 0;
   newGamePopup.style = "pointer-events: none";
+}
+
+function resetGameAreas() {
+  areas.forEach(area => {
+    area.innerHTML = "";
+  })
 }
 
 // timer
@@ -182,15 +194,26 @@ function dropCardInGameArea(e) {
 
   // when puts card in finished area again
   if (currentTarget.className === "finished-area area" && target.className !== "finished-area area") {
-    const finishedAreaCards = document.querySelectorAll(".finished-area .card");
+    const finishedAreaCards = currentTarget.querySelectorAll(".finished-area .card");
     const isMatched = [...finishedAreaCards].some(card => {
       return (
         card.dataset.type === droppingElement.dataset.type && 
         +card.dataset.value === droppingElement.dataset.value - 1
       );
-    })
+    });
+    event.dataTransfer.clearData();
     if (!isMatched) return;
   }
+
+  if (
+    currentTarget.className === "finished-area area" && 
+    target.className === "finished-area area" &&
+    +droppingElement.dataset.value !== 1
+  ) {
+    event.dataTransfer.clearData();
+    return
+  }
+
   // console.log('drop');
   const dropedAreaElement = [...areas].find(el => el == event.currentTarget);
   recordCardsOrder.push(droppingElement);

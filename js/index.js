@@ -207,33 +207,10 @@ function dropCardInGameArea(e) {
 
   const currentTarget = e.currentTarget;
   const target = e.target;
-  // when puts card in temprary area again
-  if (currentTarget.className === "temporary-area area" && target.className !== "temporary-area area") {
-    event.dataTransfer.clearData();
-    return
-  }
 
-  // when puts card in finished area again
-  if (currentTarget.className === "finished-area area" && target.className !== "finished-area area") {
-    const finishedAreaCards = currentTarget.querySelectorAll(".finished-area .card");
-    const isMatched = [...finishedAreaCards].some(card => {
-      return (
-        card.dataset.type === droppingElement.dataset.type && 
-        +card.dataset.value === droppingElement.dataset.value - 1
-      );
-    });
-    event.dataTransfer.clearData();
-    if (!isMatched) return;
-  }
-
-  if (
-    currentTarget.className === "finished-area area" && 
-    target.className === "finished-area area" &&
-    +droppingElement.dataset.value !== 1
-  ) {
-    event.dataTransfer.clearData();
-    return
-  }
+  if (checkPutsCardInTemporaryAreaAgain(currentTarget, target)) return;
+  if (checkPutsCardInFinishedAreaAgain(currentTarget, target, droppingElement)) return;
+  if (checkFirstCardInFinshedIsEqualToOne(currentTarget, target, droppingElement)) return; 
 
   // console.log('drop');
   const dropedAreaElement = [...areas].find(el => el == event.currentTarget);
@@ -244,3 +221,41 @@ function dropCardInGameArea(e) {
   event.dataTransfer.clearData();
 }
 
+function checkPutsCardInTemporaryAreaAgain(currentTarget, target) { 
+  if (currentTarget.className === "temporary-area area" && target.className !== "temporary-area area") {
+    event.dataTransfer.clearData();
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkPutsCardInFinishedAreaAgain(currentTarget, target, droppingElement) { 
+  // when puts card in finished area again
+  if (currentTarget.className === "finished-area area" && target.className !== "finished-area area") {
+    const finishedAreaCards = currentTarget.querySelectorAll(".finished-area .card");
+    const isMatched = [...finishedAreaCards].some(card => {
+      return (
+        card.dataset.type === droppingElement.dataset.type && 
+        +card.dataset.value === droppingElement.dataset.value - 1
+      );
+    });
+    event.dataTransfer.clearData();
+    if (!isMatched) return true;
+  } else {
+    return false;
+  }
+}
+
+function checkFirstCardInFinshedIsEqualToOne(currentTarget, target, droppingElement) {
+  if (
+    currentTarget.className === "finished-area area" && 
+    target.className === "finished-area area" &&
+    +droppingElement.dataset.value !== 1
+  ) {
+    event.dataTransfer.clearData();
+    return true;
+  } else {
+    return false;
+  }
+}

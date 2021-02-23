@@ -242,4 +242,7 @@ body {
   div:not(.new-game) {
     margin-top: 50px;
   }
+  .undo-active {
+    display: none;
+  }
 }

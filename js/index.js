@@ -1,11 +1,14 @@
 const cardData = getInitCardsData(); // 初始化卡牌資料
 const initData = {}; //初始區牌組資料
-const recordCardsOrder = [];
+let recordCardsOrder = [];
 let timeRecords = 0;
 let moves = 0;
 
-const move = document.querySelector(".moves span");
 const areas = document.querySelectorAll(".area");
+const undo = document.querySelector(".undo");
+const activeUndo = document.querySelector(".undo-active");
+
+activeUndo.addEventListener("click", undoPreviousStep);
 
 areas.forEach(area => {
   area.addEventListener("dragover", dragOver);
@@ -143,6 +146,8 @@ function startNewGame(e) {
     distributeCards();
     resetGameTimer();
     resetGameAreas();
+    resetMoves();
+    initCardMoveRecords();
   } 
   newGamePopup.style.opacity = 0;
   newGamePopup.style = "pointer-events: none";
@@ -164,6 +169,8 @@ function restartNewGame(e) {
     renderInitView();
     resetGameTimer();
     resetGameAreas();
+    resetMoves();
+    initCardMoveRecords();
   } 
   restartGamePopup.style.opacity = 0;
   restartGamePopup.style = "pointer-events: none";
@@ -204,6 +211,7 @@ function dropCardInGameArea(e) {
   e.preventDefault();
   const data = event.dataTransfer.getData("text/plain");
   const droppingElement = document.getElementById(data);
+  const dropedAreaElement = [...areas].find(el => el == event.currentTarget);
 
   const currentTarget = e.currentTarget;
   const target = e.target;
@@ -213,13 +221,12 @@ function dropCardInGameArea(e) {
   if (checkFirstCardInFinshedIsEqualToOne(currentTarget, target, droppingElement)) return; 
 
   // console.log('drop');
-  const dropedAreaElement = [...areas].find(el => el == event.currentTarget);
-  recordCardsOrder.push(droppingElement);
-  moves += 1;
-  move.innerHTML = moves;
+  pushCardMoveRecords(droppingElement);
+  calculateMoves();
   dropedAreaElement.appendChild(droppingElement);
   event.dataTransfer.clearData();
 }
+
 
 function checkPutsCardInTemporaryAreaAgain(currentTarget, target) { 
   if (currentTarget.className === "temporary-area area" && target.className !== "temporary-area area") {
@@ -258,4 +265,53 @@ function checkFirstCardInFinshedIsEqualToOne(currentTarget, target, droppingElem
   } else {
     return false;
   }
+}
+
+function pushCardMoveRecords(droppingElement) {
+  recordCardsOrder.push(droppingElement);
+  updateUndoIconVisible();
+}
+
+function updateUndoIconVisible() {
+  if (recordCardsOrder.length) {
+    activeUndo.style.display = "inline";
+    undo.style.display = "none";
+  } else {
+    activeUndo.style.display = "none";
+    undo.style.display = "inline";
+  }
+}
+
+function initCardMoveRecords() {
+  recordCardsOrder = [];
+  updateUndoIconVisible();
+}
+
+function undoPreviousStep(e) {
+  const cardLines = document.querySelectorAll(".card-line");
+  const lastRecord = recordCardsOrder[recordCardsOrder.length - 1];
+  recordCardsOrder.pop();
+  updateUndoIconVisible();
+  areas.forEach(area => {
+    // reomve card dom from finished or temporary area
+    const findElementInGameArea = [...area.querySelectorAll(".card")].find(el => el === lastRecord);
+    if (findElementInGameArea) {
+      area.removeChild(findElementInGameArea);
+    }
+  })
+  // insert card in previous init area
+  const previousCol = lastRecord.dataset.col;
+  [ ...cardLines][previousCol - 1].appendChild(lastRecord);
+}
+
+
+function calculateMoves() {
+  const move = document.querySelector(".moves span");
+  moves += 1;
+  move.innerHTML = moves;
+}
+function resetMoves() {
+  const move = document.querySelector(".moves span");
+  moves = 0;
+  move.innerHTML = moves;
 }

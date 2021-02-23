@@ -295,4 +295,8 @@ body {
 .sidebar div:not(.new-game) {
   margin-top: 50px;
 }
+
+.sidebar .undo-active {
+  display: none;
+}
 /*# sourceMappingURL=index.css.map */

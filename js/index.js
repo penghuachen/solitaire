@@ -1,5 +1,7 @@
-const cardData = getInitCardsData(); // 初始化卡牌資料
+import { formateTime } from "./utils.js";
+
 const initData = {}; //初始區牌組資料
+const cardData = getInitCardsData(); // 初始化卡牌資料
 let recordCardsOrder = [];
 let timeRecords = 0;
 let moves = 0;
@@ -8,32 +10,41 @@ const areas = document.querySelectorAll(".area");
 const undo = document.querySelector(".undo");
 const activeUndo = document.querySelector(".undo-active");
 const cardLines = document.querySelectorAll(".card-line");
-
-activeUndo.addEventListener("click", undoPreviousStep);
-
-areas.forEach(area => {
-  area.addEventListener("dragover", dragOver);
-  area.addEventListener("drop", dropCardInGameArea);
-})
+const sideBarNewGameBtn = document.querySelector(".sidebar .new-game");
+const newGameBtn = document.querySelector(".game-over .new-game");
+const newGamePopup = document.querySelector(".game-operation-popup.new-game");
+const sideBarRestartGameBtn = document.querySelector(".sidebar .restart-game");
+const restartGamePopup = document.querySelector(".game-operation-popup.restart-game");
 
 initGame();
+
+function initializeEvents() {  
+  activeUndo.addEventListener("click", undoPreviousStep);
+
+  areas.forEach(area => {
+    area.addEventListener("dragover", dragOver);
+    area.addEventListener("drop", dropCardInGameArea);
+  })
+
+  newGamePopup.addEventListener("click", startNewGame);
+  sideBarNewGameBtn.addEventListener("click", () => { 
+    newGamePopup.style = "pointer-events: auto";
+    newGamePopup.style.opacity = 1;
+  });
+  newGameBtn.addEventListener("click", startNewGame);
+
+  sideBarRestartGameBtn.addEventListener("click", () => { 
+    restartGamePopup.style = "pointer-events: auto";
+    restartGamePopup.style.opacity = 1;
+  });
+
+  restartGamePopup.addEventListener("click", restartNewGame);
+}
+
 function initGame() {
   setTimeout(hideOpening, 500);
-  const timer = setInterval(gameTimer, 1000);
+  initializeEvents();
   distributeCards();
-}
-
-function dragStart(e) { 
-  const currentTarget = e.currentTarget;
-  const cardsInCardLine = [ ...currentTarget.parentNode.querySelectorAll(".card") ];
-  const draggingElementIndex = cardsInCardLine.findIndex(card => card === currentTarget);
-  if (cardsInCardLine.length === draggingElementIndex + 1) {
-    e.dataTransfer.setData("text/plain", currentTarget.id);
-  }
-}
-
-function hideOpening() {
-  document.querySelector(".opening").style = "display: none";
 }
 
 function getInitCardsData() {
@@ -61,18 +72,9 @@ function getInitCardsData() {
   return cardsData;
 }
 
-function getRandomCardsData(cards, arr) {
-  let randomData = {};
-
-  if (arr.length === 52) {
-    return arr;
-  } else {
-    randomData = cards[ Math.floor(Math.random() * cards.length) ];
-    let isExist = arr.find(data => data.id === randomData.id);
-    !isExist && arr.push(randomData);
-
-    return getRandomCardsData(cards, arr);
-  }
+function hideOpening() {
+  document.querySelector(".opening").style = "display: none";
+  setInterval(gameTimer, 1000);
 }
 
 function distributeCards() { 
@@ -92,6 +94,34 @@ function distributeCards() {
 
   renderInitView();
 } 
+
+function startDragCards(e) { 
+  const currentTarget = e.currentTarget;
+  const cardsInCardLine = [ ...currentTarget.parentNode.querySelectorAll(".card") ];
+  const draggingElementIndex = cardsInCardLine.findIndex(card => card === currentTarget);
+  if (cardsInCardLine.length === draggingElementIndex + 1) {
+    e.dataTransfer.setData("text/plain", currentTarget.id);
+  }
+}
+
+function dragOver(e) {
+  e.preventDefault();
+  // console.log('dragover');
+}
+
+function getRandomCardsData(cards, arr) {
+  let randomData = {};
+
+  if (arr.length === 52) {
+    return arr;
+  } else {
+    randomData = cards[ Math.floor(Math.random() * cards.length) ];
+    let isExist = arr.find(data => data.id === randomData.id);
+    !isExist && arr.push(randomData);
+
+    return getRandomCardsData(cards, arr);
+  }
+}
 
 function initCardsDOMGenerator() {
   const obj = {};
@@ -117,9 +147,7 @@ function initCardsDOMGenerator() {
   return obj;
 }
 
-// render 
 function renderInitView() {
-  const cardLines = document.querySelectorAll(".card-line");
   const initCardsDOM = initCardsDOMGenerator();
   cardLines.forEach((cardLine, index) => {
     cardLine.innerHTML = initCardsDOM[index].join("");
@@ -127,21 +155,11 @@ function renderInitView() {
 
   const cards = document.querySelectorAll('.card');
   cards.forEach(element => {
-    element.addEventListener('dragstart', dragStart)
+    element.addEventListener('dragstart', startDragCards)
   });
 }
 
 // new game
-const newGameBtn = document.querySelectorAll(".new-game");
-const newGamePopup = document.querySelector(".game-operation-popup.new-game");
-newGameBtn.forEach(btn => {
-  btn.addEventListener("click", () => { 
-    newGamePopup.style = "pointer-events: auto";
-    newGamePopup.style.opacity = 1;
-  });
-})
-
-newGamePopup.addEventListener("click", startNewGame);
 function startNewGame(e) {
   if (e.target.className === "new-game-btn") {
     alert("開啟新局！！")
@@ -156,15 +174,6 @@ function startNewGame(e) {
 }
 
 // restart game
-const sideBarRestartGameBtn = document.querySelector(".sidebar .restart-game");
-const restartGamePopup = document.querySelector(".game-operation-popup.restart-game");
-
-sideBarRestartGameBtn.addEventListener("click", () => { 
-  restartGamePopup.style = "pointer-events: auto";
-  restartGamePopup.style.opacity = 1;
-});
-
-restartGamePopup.addEventListener("click", restartNewGame);
 function restartNewGame(e) {
   if (e.target.className === "restart-game-btn") {
     alert("重啟該局！！")
@@ -191,25 +200,9 @@ function gameTimer() {
   time.innerHTML = formateTime(timeRecords);
 }
 
-function formateTime() {
-  let seconds = timeRecords % 60;
-  let minutes = Math.floor(timeRecords / 60);
-  
-  minutes = minutes < 10 ? "0" + minutes : minutes;
-  seconds = seconds < 10 ? "0" + seconds : seconds;
-
-  return minutes + ":" + seconds;
-}
-
 function resetGameTimer() {
   timeRecords = 0;
   gameTimer();
-}
-
-
-function dragOver(e) {
-  e.preventDefault();
-  console.log('dragover');
 }
 
 function dropCardInGameArea(e) {
@@ -221,9 +214,9 @@ function dropCardInGameArea(e) {
   const currentTarget = e.currentTarget;
   const target = e.target;
 
-  if (checkPutsCardInTemporaryAreaAgain(currentTarget, target)) return;
-  if (checkPutsCardInFinishedAreaAgain(currentTarget, target, droppingElement)) return;
-  if (checkFirstCardInFinshedIsEqualToOne(currentTarget, target, droppingElement)) return; 
+  if (isPutsCardInTemporaryAreaAgain(currentTarget, target)) return;
+  if (isPutsCardInFinishedAreaAgain(currentTarget, target, droppingElement)) return;
+  if (isFirstCardInFinshedIsEqualToOne(currentTarget, target, droppingElement)) return; 
 
   // console.log('drop');
   pushCardMoveRecords(droppingElement);
@@ -234,7 +227,7 @@ function dropCardInGameArea(e) {
 }
 
 
-function checkPutsCardInTemporaryAreaAgain(currentTarget, target) { 
+function isPutsCardInTemporaryAreaAgain(currentTarget, target) { 
   if (currentTarget.className === "temporary-area area" && target.className !== "temporary-area area") {
     event.dataTransfer.clearData();
     return true;
@@ -243,7 +236,7 @@ function checkPutsCardInTemporaryAreaAgain(currentTarget, target) {
   }
 }
 
-function checkPutsCardInFinishedAreaAgain(currentTarget, target, droppingElement) { 
+function isPutsCardInFinishedAreaAgain(currentTarget, target, droppingElement) { 
   // when puts card in finished area again
   if (currentTarget.className === "finished-area area" && target.className !== "finished-area area") {
     const finishedAreaCards = currentTarget.querySelectorAll(".finished-area .card");
@@ -260,7 +253,7 @@ function checkPutsCardInFinishedAreaAgain(currentTarget, target, droppingElement
   }
 }
 
-function checkFirstCardInFinshedIsEqualToOne(currentTarget, target, droppingElement) {
+function isFirstCardInFinshedIsEqualToOne(currentTarget, target, droppingElement) {
   if (
     currentTarget.className === "finished-area area" && 
     target.className === "finished-area area" &&
@@ -304,9 +297,9 @@ function undoPreviousStep(e) {
       area.removeChild(findElementInGameArea);
     }
   })
-  // insert card in previous init area
+  // insert card in previous area
   const previousCol = lastRecord.dataset.col;
-  [ ...cardLines][previousCol - 1].appendChild(lastRecord);
+  [...cardLines][previousCol - 1].appendChild(lastRecord);
 }
 
 

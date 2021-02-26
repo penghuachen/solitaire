@@ -280,6 +280,41 @@ body {
   top: 240px;
 }
 
+.game-over {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: 60%;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  color: white;
+}
+
+.game-over .congratulation-text {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.game-over p:not(.congratulation-text) {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.game-over button {
+  cursor: pointer;
+  margin-bottom: 30px;
+  padding: 10px 30px;
+  border: none;
+  color: #ffffff;
+  font-size: 24px;
+  border-radius: 25px;
+  background: #3F869B;
+  outline: none;
+}
+
 .sidebar {
   width: 10%;
   min-width: 105px;

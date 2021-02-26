@@ -7,6 +7,7 @@ let moves = 0;
 const areas = document.querySelectorAll(".area");
 const undo = document.querySelector(".undo");
 const activeUndo = document.querySelector(".undo-active");
+const cardLines = document.querySelectorAll(".card-line");
 
 activeUndo.addEventListener("click", undoPreviousStep);
 
@@ -131,13 +132,14 @@ function renderInitView() {
 }
 
 // new game
-const sideBarNewGameBtn = document.querySelector(".sidebar .new-game");
+const newGameBtn = document.querySelectorAll(".new-game");
 const newGamePopup = document.querySelector(".game-operation-popup.new-game");
-
-sideBarNewGameBtn.addEventListener("click", () => { 
-  newGamePopup.style = "pointer-events: auto";
-  newGamePopup.style.opacity = 1;
-});
+newGameBtn.forEach(btn => {
+  btn.addEventListener("click", () => { 
+    newGamePopup.style = "pointer-events: auto";
+    newGamePopup.style.opacity = 1;
+  });
+})
 
 newGamePopup.addEventListener("click", startNewGame);
 function startNewGame(e) {
@@ -186,14 +188,17 @@ function resetGameAreas() {
 function gameTimer() {
   const time = document.querySelector(".time span");
   timeRecords += 1;
+  time.innerHTML = formateTime(timeRecords);
+}
+
+function formateTime() {
   let seconds = timeRecords % 60;
   let minutes = Math.floor(timeRecords / 60);
   
   minutes = minutes < 10 ? "0" + minutes : minutes;
   seconds = seconds < 10 ? "0" + seconds : seconds;
 
-  const currentRecord = minutes + ":" + seconds;
-  time.innerHTML = currentRecord;
+  return minutes + ":" + seconds;
 }
 
 function resetGameTimer() {
@@ -223,6 +228,7 @@ function dropCardInGameArea(e) {
   // console.log('drop');
   pushCardMoveRecords(droppingElement);
   calculateMoves();
+  checkFinishedAndShowRecord();
   dropedAreaElement.appendChild(droppingElement);
   event.dataTransfer.clearData();
 }
@@ -288,7 +294,6 @@ function initCardMoveRecords() {
 }
 
 function undoPreviousStep(e) {
-  const cardLines = document.querySelectorAll(".card-line");
   const lastRecord = recordCardsOrder[recordCardsOrder.length - 1];
   recordCardsOrder.pop();
   updateUndoIconVisible();
@@ -314,4 +319,25 @@ function resetMoves() {
   const move = document.querySelector(".moves span");
   moves = 0;
   move.innerHTML = moves;
+}
+
+function checkFinishedAndShowRecord() {
+  const finalGoal = 52;
+  const finishedAreas = document.querySelectorAll(".finished-area")
+  const total = [...finishedAreas].reduce((acc, area) => {
+    const len = area.querySelectorAll(".card").length
+    acc += len;
+    return acc;
+  }, 0);
+
+  if (total === finalGoal) {
+    const gameOverArea = document.querySelector(".game-over");
+    gameOverArea.style.display = "block";
+    cardLines.forEach(cardLine => cardLine.style.display = "none");
+    const finishedMoves = document.querySelector(".records .moves span");
+    finishedMoves.innerHTML = moves;
+    const finishedTime = document.querySelector(".records .time span");
+    const lastTime = timeRecords;
+    finishedTime.innerHTML = formateTime(lastTime);
+  }
 }

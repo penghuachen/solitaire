@@ -42,7 +42,7 @@ function initializeEvents() {
 }
 
 function initGame() {
-  setTimeout(hideOpening, 500);
+  setTimeout(hideOpening, 5000);
   initializeEvents();
   distributeCards();
 }
@@ -52,12 +52,7 @@ function getInitCardsData() {
   const dataObj = {
     type: "",
     value: 0,
-    current: "init",
-    previous: null,
-    order: 0,
     initCol: null,
-    finishedCol: null,
-    temporaryCol: null
   };
   const cardsData = typesOfCard.flatMap(type => {
     return [ ...new Array(14).keys() ]

@@ -183,8 +183,10 @@ function restartNewGame(e) {
 }
 
 function resetGameAreas() {
-  areas.forEach(area => {
-    area.innerHTML = "";
+  areas.forEach((area, index) => {
+    index <= 3
+      ? area.innerHTML = '' 
+      : area.innerHTML = `A`;
   })
 }
 

@@ -1,6 +1,6 @@
 # Free Cell 新接龍
 
-![](https://i.imgur.com/ei6wvxQ.gif)
+![](https://i.imgur.com/mAOV0YP.gif)
 
 ## 使用技術
 
@@ -14,19 +14,19 @@
 
 點擊右方 「NEW」 按鈕會跳出開啟新遊戲的彈跳視窗，選擇開啟一局新的遊戲或者返回當前遊戲
 
-![new](https://i.imgur.com/zTLaRRk.gif)
+![](https://i.imgur.com/gFozlLO.gif)
 
 #### 重新開啟該局遊戲的提示
 
 點擊右方 「RESTART」 按鈕會跳出重新開始該局遊戲的彈跳視窗，選擇重新開始該局的遊戲或者返回當前遊戲
 
-![restart](https://i.imgur.com/wKeO567.gif)
+![](https://i.imgur.com/0ZNzLX3.gif)
 
 #### 回到上一步(Undo)功能
 
 當卡牌成功放置於上方區塊時，此時右方 「UNDO」 按鈕顯示為可點擊，點擊該按鈕時，能退回到前一次的拖曳結果
 
-![undo](https://i.imgur.com/UpfGR4I.gif)
+![](https://i.imgur.com/zTrDj99.gif)
 
 #### 遊戲時間計時功能(右上角區塊)
 
@@ -40,13 +40,13 @@
 
 左方為卡牌暫時存放的區塊，一次只能放置單張卡牌
 
-![](https://i.imgur.com/uxY5Evf.gif)
+![](https://i.imgur.com/vYgQpDw.gif)
 
-#### 卡牌完成區(右上四個放置卡牌的區塊))
+#### 卡牌完成區(右上四個放置卡牌的區塊)
 
 右方為完成卡牌存放的區塊，可放置多張卡牌，順序由小至大(A 到 K)
 
-![](https://i.imgur.com/ei6wvxQ.gif)
+![](https://i.imgur.com/mAOV0YP.gif)
 
 ## 學習重點紀錄
 

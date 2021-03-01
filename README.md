@@ -14,19 +14,19 @@
 
 點擊右方 「NEW」 按鈕會跳出開啟新遊戲的彈跳視窗，選擇開啟一局新的遊戲或者返回當前遊戲
 
-![](https://i.imgur.com/zTLaRRk.gif)
+![new](https://i.imgur.com/zTLaRRk.gif)
 
 #### 重新開啟該局遊戲的提示
 
 點擊右方 「RESTART」 按鈕會跳出重新開始該局遊戲的彈跳視窗，選擇重新開始該局的遊戲或者返回當前遊戲
 
-![](https://i.imgur.com/wKeO567.gif)
+![restart](https://i.imgur.com/wKeO567.gif)
 
 #### 回到上一步(Undo)功能
 
 當卡牌成功放置於上方區塊時，此時右方 「UNDO」 按鈕顯示為可點擊，點擊該按鈕時，能退回到前一次的拖曳結果
 
-![](https://i.imgur.com/UpfGR4I.gif)
+![undo](https://i.imgur.com/UpfGR4I.gif)
 
 #### 遊戲時間計時功能(右上角區塊)
 

@@ -14,7 +14,7 @@
 
 點擊右方 「NEW」 按鈕會跳出開啟新遊戲的彈跳視窗，選擇開啟一局新的遊戲或者返回當前遊戲
 
-![](https://i.imgur.com/gFozlLO.gif)
+![](https://i.imgur.com/ExHPOkr.gif)
 
 #### 重新開啟該局遊戲的提示
 
